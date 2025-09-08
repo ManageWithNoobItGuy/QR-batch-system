@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <base target="_top">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QR Code</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600&display=swap');
+        
+        :root {
+            --primary-color: #f59e0b; /* yellow-500 */
+            --primary-dark-color: #d97706; /* yellow-600 */
+            --secondary-color: #6b7280; /* gray-500 */
+            --secondary-dark-color: #4b5563; /* gray-600 */
+            --text-color: #333;
+            --background-color: #fff;
+            --light-bg-color: #fefce8; /* yellow-50 */
+            --card-bg-color: #fff;
+        }
+
+        body {
+            font-family: 'Kanit', sans-serif;
+            background-color: var(--light-bg-color);
+            color: var(--text-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            background-color: var(--card-bg-color);
+            padding: 2.5rem;
+            border-radius: 1rem;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            max-width: 900px;
+            width: 100%;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+        .form-section {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            text-align: left;
+        }
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+        .form-group label {
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+            color: var(--text-color);
+        }
+        .form-group input, .form-group select {
+            padding: 0.75rem;
+            border: 1px solid #ddd;
+            border-radius: 0.5rem;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+        .form-group input:focus, .form-group select:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+        .button {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 0.5rem;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .button-primary {
+            background-color: var(--primary-color);
+            color: #ffffff;
+        }
+        .button-primary:hover {
+            background-color: var(--primary-dark-color);
+            transform: translateY(-2px);
+        }
+        .button-secondary {
+            background-color: var(--secondary-color);
+            color: #ffffff;
+        }
+        .button-secondary:hover {
+            background-color: var(--secondary-dark-color);
+            transform: translateY(-2px);
+        }
+        .qr-card {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 2rem;
+        }
+        .qr-card img {
+            max-width: 300px;
+            height: auto;
+            border-radius: 0.5rem;
+            border: 1px solid #eee;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .qr-details {
+            text-align: center;
+            font-size: 15px;
+            line-height: 1.2;
+            max-width: 100%;
+        }
+        .qr-details p {
+            margin-bottom: 0.5rem;
+        }
+        .qr-details b {
+            color: var(--secondary-dark-color);
+        }
+        .button-group {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .qr-and-details {
+            display: flex;
+            flex-direction: row;
+            align-items: flex-start;
+            justify-content: center;
+            gap: 2rem;
+            width: 100%;
+        }
+
+        .date-buttons {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+        }
+
+        .date-buttons .button {
+            padding: 0.5rem 1rem;
+        }
+
+        @media (max-width: 768px) {
+            .qr-and-details {
+                flex-direction: column;
+                align-items: center;
+            }
+            .qr-details {
+                text-align: center;
+                font-size: 14px;
+                line-height: 1.2;
+                max-width: 100%;
+            }
+        }
+
+        .spinner {
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            border-top: 4px solid #fff;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @media print {
+            @page {
+                size: 60mm 40mm landscape;
+            }
+            body {
+                background: none;
+                justify-content: flex-start;
+                align-items: flex-start;
+                padding: 0;
+            }
+            .container {
+                box-shadow: none;
+                padding: 0;
+                width: 60mm;
+                height: 40mm;
+                display: flex;
+                flex-direction: row;
+                justify-content: center;
+                align-items: center;
+                text-align: center;
+            }
+            .qr-and-details {
+                flex-direction: row;
+                align-items: center;
+                justify-content: space-between;
+                gap: 2mm;
+                width: 100%;
+                text-align: center;
+            }
+            .qr-details {
+                text-align: center;
+                font-size: 13px;
+                line-height: 1.2;
+                max-width: 100%;
+            }
+            .qr-details p b {
+                display: initial;
+            }
+            .qr-details p {
+                margin-bottom: 1mm;
+            }
+            .qr-card {
+                padding: 0;
+                width: 25mm;
+                height: auto;
+            }
+            .qr-card img {
+                max-width: 100%;
+                box-shadow: none;
+                border: none;
+            }
+            .button-group, .form-view, .statusMessage {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="main-content" class="container">
+        <!-- Main Form Content -->
+        <div id="form-view">
+            <h1 class="text-3xl font-bold text-center mb-6 text-gray-800">สร้าง QR Code ข้อมูลสินค้าเนื้อสัตว์</h1>
+            <form id="qrForm" class="form-section">
+                <div class="form-group">
+                    <label for="meatType">ประเภทเนื้อสัตว์:</label>
+                    <select id="meatType" name="meatType" required>
+                        <option value="สันคอหมู Spure">สันคอหมู spure</option>
+                        <option value="สันคอหมู">สันคอหมู</option>
+                        <option value="หมูสามชั้น">หมูสามชั้น</option>
+                        <option value="หมูสันนอก">หมูสันนอก</option>
+                        <option value="เนื้อริบอาย">เนื้อริบอาย</option>
+                        <option value="เนื้อใบพาย">เนื้อใบพาย</option>
+                        <option value="เนื้อเสือร้องไห้">เนื้อเสือร้องไห้</option>
+                        <option value="เนื้อยูเอส">เนื้อยูเอส</option>
+                        <option value="เนื้อชัคโรล">เนื้อชัคโรล</option>
+                        <option value="เนื้อวากิว">เนื้อวากิว</option>
+                        <option value="เนื้อวากิวคารูบิ">เนื้อวากิวคารูบิ</option>
+                        <option value="เนื้อวากิว A5">เนื้อวากิว A5</option>
+                        <option value="กุุ้งขาว">กุุ้งขาว</option>
+                        <option value="กุ้งก้าม">กุ้งก้าม</option>
+                        <option value="แซลมอน">แซลมอน</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="weight">น้ำหนัก (กรัม):</label>
+                    <input type="number" id="weight" name="weight" step="0.01" required>
+                </div>
+                <div class="form-group">
+                    <label for="receiveDate">วันที่รับเข้า:</label>
+                    <input type="date" id="receiveDate" name="receiveDate" required>
+                    <div class="date-buttons">
+                        <button type="button" class="button button-primary" id="todayButton">วันนี้</button>
+                        <button type="button" class="button button-primary" id="yesterdayButton">เมื่อวาน</button>
+                    </div>
+                </div>
+                <div class="button-group">
+                    <button type="submit" class="button button-primary">บันทึก</button>
+                </div>
+            </form>
+            <div id="statusMessage" class="mt-4 text-center text-red-500 font-semibold"></div>
+        </div>
+
+        <!-- QR Code Display Content -->
+        <div id="qr-view" class="hidden">
+            <div class="qr-and-details">
+                <div class="qr-details">
+                    <p><b><span id="detailMeatType"></b></span></p>
+                    <p><b><span id="detailWeight"></b></span> กิโลกรัม</p>
+                    <p><b><span id="detailReceiveDate"></b></span></p>
+                </div>
+                <div class="qr-card">
+                    <img id="qrCodeImage" src="" alt="QR Code">
+                </div>
+            </div>
+            <div class="button-group">
+                <button id="printButton" class="button button-primary">พิมพ์</button>
+                <button id="backButton" class="button button-secondary">กลับ</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('qrForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const form = e.target;
+            const statusMessage = document.getElementById('statusMessage');
+            statusMessage.textContent = 'กำลังบันทึกข้อมูล...';
+
+            google.script.run
+                .withSuccessHandler(onSuccess)
+                .withFailureHandler(onFailure)
+                .processForm({
+                    meatType: form.meatType.value,
+                    weight: form.weight.value,
+                    receiveDate: form.receiveDate.value
+                });
+        });
+
+        function onSuccess(result) {
+            const statusMessage = document.getElementById('statusMessage');
+            if (result.success) {
+                // Show QR view
+                document.getElementById('form-view').classList.add('hidden');
+                document.getElementById('qr-view').classList.remove('hidden');
+
+                // Populate QR details
+                document.getElementById('qrCodeImage').src = result.qrCodeUrl;
+                document.getElementById('detailMeatType').textContent = result.meatType;
+                document.getElementById('detailWeight').textContent = result.weight;
+                document.getElementById('detailReceiveDate').textContent = result.receivedDate;
+
+                statusMessage.textContent = '';
+            } else {
+                statusMessage.textContent = 'เกิดข้อผิดพลาด: ' + result.error;
+            }
+        }
+
+        function onFailure(error) {
+            document.getElementById('statusMessage').textContent = 'เกิดข้อผิดพลาด: ' + error.message;
+        }
+
+        document.getElementById('backButton').addEventListener('click', function() {
+            // Hide QR view and show form view
+            document.getElementById('qr-view').classList.add('hidden');
+            document.getElementById('form-view').classList.remove('hidden');
+        });
+
+        document.getElementById('printButton').addEventListener('click', function() {
+            window.print();
+        });
+
+        // Date automation buttons
+        function formatDate(date) {
+            const yyyy = date.getFullYear();
+            const mm = String(date.getMonth() + 1).padStart(2, '0');
+            const dd = String(date.getDate()).padStart(2, '0');
+            return `${yyyy}-${mm}-${dd}`;
+        }
+
+        document.getElementById('todayButton').addEventListener('click', function() {
+            const today = new Date();
+            document.getElementById('receiveDate').value = formatDate(today);
+        });
+
+        document.getElementById('yesterdayButton').addEventListener('click', function() {
+            const yesterday = new Date();
+            yesterday.setDate(yesterday.getDate() - 1);
+            document.getElementById('receiveDate').value = formatDate(yesterday);
+        });
+    </script>
+</body>
+</html>
