@@ -24,14 +24,18 @@ function processForm(formData) {
     // Convert the date string from the form into a proper Date object
     const receivedDate = Utilities.parseDate(formData.receiveDate, Session.getScriptTimeZone(), "yyyy-MM-dd");
 
+    // Format the date as DD/MM/YYYY before saving to Google Sheets
+    const formattedDate = Utilities.formatDate(receivedDate, Session.getScriptTimeZone(), "dd/MM/yyyy");
+
     // Get the current timestamp as a 13-digit number (milliseconds since epoch)
     const timestampNumber = new Date().getTime();
 
     const rowData = [
       timestampNumber,
-      receivedDate,
+      formattedDate,
       formData.meatType,
-      parseFloat(formData.weight)
+      parseFloat(formData.weight),
+      formData.receiver
     ];
 
     sheet.appendRow(rowData);
@@ -46,6 +50,7 @@ function processForm(formData) {
       meatType: formData.meatType,
       weight: formData.weight,
       receivedDate: Utilities.formatDate(receivedDate, Session.getScriptTimeZone(), "dd/MM/yyyy"),
+      receiver: formData.receiver,
       qrCodeText: timestampNumber.toString() // Ensure this is sent back for display
     };
   } catch (error) {

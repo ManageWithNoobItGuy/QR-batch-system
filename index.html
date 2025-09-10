@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <base target="_top">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,15 +8,20 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600&display=swap');
-        
+
         :root {
-            --primary-color: #f59e0b; /* yellow-500 */
-            --primary-dark-color: #d97706; /* yellow-600 */
-            --secondary-color: #6b7280; /* gray-500 */
-            --secondary-dark-color: #4b5563; /* gray-600 */
+            --primary-color: #f59e0b;
+            /* yellow-500 */
+            --primary-dark-color: #d97706;
+            /* yellow-600 */
+            --secondary-color: #6b7280;
+            /* gray-500 */
+            --secondary-dark-color: #4b5563;
+            /* gray-600 */
             --text-color: #333;
             --background-color: #fff;
-            --light-bg-color: #fefce8; /* yellow-50 */
+            --light-bg-color: #fefce8;
+            /* yellow-50 */
             --card-bg-color: #fff;
         }
 
@@ -30,6 +36,7 @@
             margin: 0;
             padding: 20px;
         }
+
         .container {
             background-color: var(--card-bg-color);
             padding: 2.5rem;
@@ -42,32 +49,40 @@
             flex-direction: column;
             gap: 2rem;
         }
+
         .form-section {
             display: flex;
             flex-direction: column;
             gap: 1.5rem;
             text-align: left;
         }
+
         .form-group {
             display: flex;
             flex-direction: column;
         }
+
         .form-group label {
             font-weight: 500;
             margin-bottom: 0.5rem;
             color: var(--text-color);
         }
-        .form-group input, .form-group select {
+
+        .form-group input,
+        .form-group select {
             padding: 0.75rem;
             border: 1px solid #ddd;
             border-radius: 0.5rem;
             font-size: 1rem;
             transition: border-color 0.3s;
         }
-        .form-group input:focus, .form-group select:focus {
+
+        .form-group input:focus,
+        .form-group select:focus {
             outline: none;
             border-color: var(--primary-color);
         }
+
         .button {
             padding: 0.75rem 1.5rem;
             border: none;
@@ -78,22 +93,27 @@
             transition: background-color 0.3s, transform 0.2s;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
+
         .button-primary {
             background-color: var(--primary-color);
             color: #ffffff;
         }
+
         .button-primary:hover {
             background-color: var(--primary-dark-color);
             transform: translateY(-2px);
         }
+
         .button-secondary {
             background-color: var(--secondary-color);
             color: #ffffff;
         }
+
         .button-secondary:hover {
             background-color: var(--secondary-dark-color);
             transform: translateY(-2px);
         }
+
         .qr-card {
             display: flex;
             flex-direction: column;
@@ -103,6 +123,7 @@
             text-align: center;
             padding: 2rem;
         }
+
         .qr-card img {
             max-width: 300px;
             height: auto;
@@ -110,25 +131,29 @@
             border: 1px solid #eee;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
+
         .qr-details {
             text-align: center;
             font-size: 15px;
             line-height: 1.2;
             max-width: 100%;
         }
+
         .qr-details p {
             margin-bottom: 0.5rem;
         }
+
         .qr-details b {
             color: var(--secondary-dark-color);
         }
+
         .button-group {
             display: flex;
             justify-content: center;
             gap: 1rem;
             margin-top: 1rem;
         }
-        
+
         .qr-and-details {
             display: flex;
             flex-direction: row;
@@ -153,6 +178,7 @@
                 flex-direction: column;
                 align-items: center;
             }
+
             .qr-details {
                 text-align: center;
                 font-size: 14px;
@@ -169,21 +195,29 @@
             height: 24px;
             animation: spin 1s linear infinite;
         }
+
         @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
         }
 
         @media print {
             @page {
                 size: 60mm 40mm landscape;
             }
+
             body {
                 background: none;
                 justify-content: flex-start;
                 align-items: flex-start;
                 padding: 0;
             }
+
             .container {
                 box-shadow: none;
                 padding: 0;
@@ -195,6 +229,7 @@
                 align-items: center;
                 text-align: center;
             }
+
             .qr-and-details {
                 flex-direction: row;
                 align-items: center;
@@ -203,34 +238,43 @@
                 width: 100%;
                 text-align: center;
             }
+
             .qr-details {
                 text-align: center;
                 font-size: 13px;
                 line-height: 1.2;
                 max-width: 100%;
             }
+
             .qr-details p b {
                 display: initial;
             }
+
             .qr-details p {
                 margin-bottom: 1mm;
             }
+
             .qr-card {
                 padding: 0;
                 width: 25mm;
                 height: auto;
             }
+
             .qr-card img {
                 max-width: 100%;
                 box-shadow: none;
                 border: none;
             }
-            .button-group, .form-view, .statusMessage {
+
+            .button-group,
+            .form-view,
+            .statusMessage {
                 display: none;
             }
         }
     </style>
 </head>
+
 <body>
     <div id="main-content" class="container">
         <!-- Main Form Content -->
@@ -240,6 +284,7 @@
                 <div class="form-group">
                     <label for="meatType">ประเภทเนื้อสัตว์:</label>
                     <select id="meatType" name="meatType" required>
+                        <option value="" selected disabled>-- เลือกประเภทเนื้อสัตว์ --</option>
                         <option value="สันคอหมู Spure">สันคอหมู spure</option>
                         <option value="สันคอหมู">สันคอหมู</option>
                         <option value="หมูสามชั้น">หมูสามชั้น</option>
@@ -255,6 +300,18 @@
                         <option value="กุุ้งขาว">กุุ้งขาว</option>
                         <option value="กุ้งก้าม">กุ้งก้าม</option>
                         <option value="แซลมอน">แซลมอน</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="receiver">ผู้รับเข้า:</label>
+                    <select id="receiver" name="receiver" required>
+                        <option value="" selected disabled>-- เลือกผู้รับเข้า --</option>
+                        <option value="หลุน">หลุน</option>
+                        <option value="ปาน">ปาน</option>
+                        <option value="บิว">บิว</option>
+                        <option value="มิน">มิน</option>
+                        <option value="ฟิว">ฟิว</option>
+                        <option value="คลัง">คลัง</option>
                     </select>
                 </div>
                 <div class="form-group">
@@ -283,6 +340,7 @@
                     <p><b><span id="detailMeatType"></b></span></p>
                     <p><b><span id="detailWeight"></b></span> กิโลกรัม</p>
                     <p><b><span id="detailReceiveDate"></b></span></p>
+                    <p>ผู้รับ: <b><span id="detailReceiver"></b></span></p>
                 </div>
                 <div class="qr-card">
                     <img id="qrCodeImage" src="" alt="QR Code">
@@ -296,7 +354,7 @@
     </div>
 
     <script>
-        document.getElementById('qrForm').addEventListener('submit', function(e) {
+        document.getElementById('qrForm').addEventListener('submit', function (e) {
             e.preventDefault();
             const form = e.target;
             const statusMessage = document.getElementById('statusMessage');
@@ -307,6 +365,7 @@
                 .withFailureHandler(onFailure)
                 .processForm({
                     meatType: form.meatType.value,
+                    receiver: form.receiver.value,
                     weight: form.weight.value,
                     receiveDate: form.receiveDate.value
                 });
@@ -324,6 +383,7 @@
                 document.getElementById('detailMeatType').textContent = result.meatType;
                 document.getElementById('detailWeight').textContent = result.weight;
                 document.getElementById('detailReceiveDate').textContent = result.receivedDate;
+                document.getElementById('detailReceiver').textContent = result.receiver;
 
                 statusMessage.textContent = '';
             } else {
@@ -335,13 +395,16 @@
             document.getElementById('statusMessage').textContent = 'เกิดข้อผิดพลาด: ' + error.message;
         }
 
-        document.getElementById('backButton').addEventListener('click', function() {
+        document.getElementById('backButton').addEventListener('click', function () {
+            // Reset weight field but keep other values
+            document.getElementById('weight').value = '';
+
             // Hide QR view and show form view
             document.getElementById('qr-view').classList.add('hidden');
             document.getElementById('form-view').classList.remove('hidden');
         });
 
-        document.getElementById('printButton').addEventListener('click', function() {
+        document.getElementById('printButton').addEventListener('click', function () {
             window.print();
         });
 
@@ -353,16 +416,17 @@
             return `${yyyy}-${mm}-${dd}`;
         }
 
-        document.getElementById('todayButton').addEventListener('click', function() {
+        document.getElementById('todayButton').addEventListener('click', function () {
             const today = new Date();
             document.getElementById('receiveDate').value = formatDate(today);
         });
 
-        document.getElementById('yesterdayButton').addEventListener('click', function() {
+        document.getElementById('yesterdayButton').addEventListener('click', function () {
             const yesterday = new Date();
             yesterday.setDate(yesterday.getDate() - 1);
             document.getElementById('receiveDate').value = formatDate(yesterday);
         });
     </script>
 </body>
+
 </html>
